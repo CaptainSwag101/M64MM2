@@ -57,7 +57,6 @@
             this.grpCamStyle = new System.Windows.Forms.GroupBox();
             this.btnChangeCamStyle = new System.Windows.Forms.Button();
             this.cbCamStyles = new System.Windows.Forms.ComboBox();
-            this.showRunningPluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.grpCamera.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -77,8 +76,7 @@
             // 
             this.toolsMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.appearanceSettingsMenuItem,
-            this.extraControlsToolStripMenuItem,
-            this.showRunningPluginsToolStripMenuItem});
+            this.extraControlsToolStripMenuItem});
             this.toolsMenuItem.Name = "toolsMenuItem";
             resources.ApplyResources(this.toolsMenuItem, "toolsMenuItem");
             // 
@@ -255,12 +253,6 @@
             resources.ApplyResources(this.cbCamStyles, "cbCamStyles");
             this.cbCamStyles.Name = "cbCamStyles";
             // 
-            // showRunningPluginsToolStripMenuItem
-            // 
-            this.showRunningPluginsToolStripMenuItem.Name = "showRunningPluginsToolStripMenuItem";
-            resources.ApplyResources(this.showRunningPluginsToolStripMenuItem, "showRunningPluginsToolStripMenuItem");
-            this.showRunningPluginsToolStripMenuItem.Click += new System.EventHandler(this.showRunningPluginsToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -274,7 +266,6 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.grpCamera.ResumeLayout(false);
@@ -306,7 +297,6 @@
         private System.Windows.Forms.ComboBox cbAnimOld;
         private System.Windows.Forms.Label lblAnimOld;
         private System.Windows.Forms.Label lblAnimNew;
-        private System.Windows.Forms.Timer updateTimer;
         private System.Windows.Forms.Button btnAnimSwap;
         private System.Windows.Forms.Button btnAnimResetAll;
         private System.Windows.Forms.Button btnAnimReset;
@@ -317,7 +307,7 @@
         private System.Windows.Forms.Button btnChangeCamStyle;
         private System.Windows.Forms.ToolStripMenuItem extraControlsToolStripMenuItem;
         private System.Windows.Forms.Button btnAnimRestart;
-        private System.Windows.Forms.ToolStripMenuItem showRunningPluginsToolStripMenuItem;
+        private System.Windows.Forms.Timer updateTimer;
     }
 }
 

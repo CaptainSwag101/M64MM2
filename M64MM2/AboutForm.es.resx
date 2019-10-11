@@ -144,19 +144,13 @@ con ayuda de GlitchyPSI</value>
     <value>500, 28</value>
   </data>
   <data name="lblBugReport.Text" xml:space="preserve">
-    <value>¿Hallaste algún error, necesitas ayuda, o quieres recomendar una función? Contáctanos de la siguiente manera:</value>
+    <value>¿Hallaste algún error, o necesitas ayuda? Contáctanos de la siguiente manera:</value>
   </data>
   <data name="lnkEmail.Location" type="System.Drawing.Point, System.Drawing">
     <value>27, 276</value>
   </data>
-  <data name="lblBuildDate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>155, 324</value>
-  </data>
-  <data name="lblBuildDate.Text" xml:space="preserve">
-    <value>Construido el: 6 de agosto del 2017</value>
-  </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 340</value>
+    <value>224, 318</value>
   </data>
   <data name="lblLicenseInfo.Location" type="System.Drawing.Point, System.Drawing">
     <value>86, 302</value>
@@ -165,7 +159,7 @@ con ayuda de GlitchyPSI</value>
     <value>Este programa está bajo la licencia GNU General Public License versión 3.</value>
   </data>
   <data name="lnkDiscord.Location" type="System.Drawing.Point, System.Drawing">
-    <value>206, 276</value>
+    <value>221, 276</value>
   </data>
   <data name="lnkGithubIssues.Location" type="System.Drawing.Point, System.Drawing">
     <value>399, 276</value>
@@ -477,6 +471,6 @@ con ayuda de GlitchyPSI</value>
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Acerca de Mario 64 Movie Maker 2.1</value>
+    <value>Acerca de Mario 64 Movie Maker 2.2</value>
   </data>
 </root>
