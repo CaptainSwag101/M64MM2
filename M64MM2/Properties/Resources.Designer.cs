@@ -266,6 +266,26 @@ namespace M64MM2.Properties {
         }
         
         /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
+        /// </summary>
+        internal static System.Drawing.Icon M64MMLTS {
+            get {
+                object obj = ResourceManager.GetObject("M64MMLTS", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MMLTS_Icon {
+            get {
+                object obj = ResourceManager.GetObject("MMLTS_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a M64MM.
         /// </summary>
         internal static string programName {
