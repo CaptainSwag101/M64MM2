@@ -12,6 +12,7 @@ namespace M64MM
     {
         public static long BaseAddress;
         public static bool IsEmuOpen => (emuProcess != null && !emuProcess.HasExited);
+        public static ModelStatus modelStatus = ModelStatus.NONE;
         public enum ModelStatus
         {
             NONE,
@@ -298,65 +299,5 @@ namespace M64MM
         {
             return 0 != GetAsyncKeyState(vKey);
         }
-    }
-
-    public class UI
-    {
-        public static void ShowMsgBox(string text, string title = "")
-        {
-            MessageBox.Show(text, title);
-        }
-    }
-
-
-
-    public interface IModule
-    {
-        void Initialize();
-        void Update();
-        void Reset();
-        void Close(System.ComponentModel.CancelEventArgs e);
-        string SafeName { get; }
-        string Description { get; }
-        List<ToolCommand> GetCommands();
-    }
-
-    public class ToolCommand
-    {
-        public string name;
-        public delegate void SummonCommand(object sender, EventArgs e);
-        public event SummonCommand Summoned;
-
-        public ToolCommand(string n)
-        {
-            name = n;
-        }
-
-        public void Summon(object sender, EventArgs e)
-        {
-            Summoned(this, e);
-        }
-    }
-
-    public class Plugin
-    {
-        public IModule Module { get; }
-        public bool Active { get; set; }
-        public string Name { get; }
-        public string Description { get; }
-        public string Version { get; }
-        public Plugin (IModule mod, string nm, string vr, string dc)
-        {
-            Module = mod;
-            Name = nm;
-            Version = vr;
-            Description = dc;
-            Active = true;
-        }
-        public override string ToString()
-        {
-            return Name;
-        }
-
     }
 }

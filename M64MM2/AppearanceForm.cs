@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using M64MM2.Properties;
-
 using static M64MM.Utils;
 
 
@@ -123,7 +122,7 @@ namespace M64MM2
             senderButton.BackColor = colorDialog.Color;
             marioSprite.Refresh();
 
-            if (!IsEmuOpen || BaseAddress == 0) return;
+            if (!IsEmuOpen || BaseAddress == 0 || modelStatus != ModelStatus.VANILLA) return;
 
 
             byte[] colorData = new byte[4];
@@ -181,7 +180,7 @@ namespace M64MM2
 
         void applyAllColors()
         {
-            if (!IsEmuOpen || BaseAddress == 0) return;
+            if (!IsEmuOpen || BaseAddress == 0 || modelStatus != ModelStatus.VANILLA) return;
 
             byte[] colorData = new byte[4];
             
@@ -431,7 +430,7 @@ namespace M64MM2
 
         void loadFromGame(object sender, EventArgs e)
         {
-            if (!IsEmuOpen || BaseAddress == 0) return;
+            if (!IsEmuOpen || BaseAddress == 0 || modelStatus != ModelStatus.VANILLA) return;
 
             byte[] colorData;
 
@@ -550,7 +549,7 @@ namespace M64MM2
 
         void changeShadows(object sender, EventArgs e)
         {
-            if (!IsEmuOpen || BaseAddress == 0) return;
+            if (!IsEmuOpen || BaseAddress == 0 || modelStatus != ModelStatus.VANILLA) return;
 
             TrackBar senderBar = (TrackBar) sender;
             byte[] data = new byte[1];

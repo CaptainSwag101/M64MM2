@@ -122,25 +122,19 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="appearanceSettingsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>191, 22</value>
   </data>
   <data name="appearanceSettingsMenuItem.Text" xml:space="preserve">
     <value>&amp;Appearance Settings...</value>
   </data>
   <data name="extraControlsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
+    <value>191, 22</value>
   </data>
   <data name="extraControlsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Extra Controls...</value>
   </data>
-  <data name="showRunningPluginsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 22</value>
-  </data>
-  <data name="showRunningPluginsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Show Running Plugins</value>
-  </data>
   <data name="toolsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 20</value>
+    <value>46, 20</value>
   </data>
   <data name="toolsMenuItem.Text" xml:space="preserve">
     <value>&amp;Tools</value>
@@ -337,7 +331,7 @@
     <value>MiddleLeft</value>
   </data>
   <data name="lblCameraCode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 17</value>
+    <value>67, 17</value>
   </data>
   <data name="lblCameraCode.Text" xml:space="preserve">
     <value>0x00000000</value>
@@ -1025,12 +1019,6 @@
   </data>
   <data name="&gt;&gt;updateTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;showRunningPluginsToolStripMenuItem.Name" xml:space="preserve">
-    <value>showRunningPluginsToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;showRunningPluginsToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>
