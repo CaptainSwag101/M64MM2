@@ -31,12 +31,12 @@ namespace M64MM2
 
         private void AboutForm_Load(object sender, EventArgs e)
         {
-            lnkDiscord.Text = ("http://discord.gg/" + Resources.discordInvite);
+            lnkDiscord.Text = ("Project Comet");
         }
 
         private void lnkDiscord_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://discord.gg/" + Resources.discordInvite);
+            Process.Start("http://comet.glitchypsi.xyz");
         }
 
         private void lnkGithubIssues_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

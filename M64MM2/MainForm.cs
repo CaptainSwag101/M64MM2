@@ -18,93 +18,19 @@ namespace M64MM2
 {
     public partial class MainForm : Form
     {
-        public static List<Plugin> moduleList = new List<Plugin>();
         AppearanceForm appearanceForm;
         ExtraControlsForm extraControlsForm;
         bool cameraFrozen = false;
         bool cameraSoftFrozen = false;
-        static ModelStatus modelStatus = ModelStatus.NONE;
         List<Animation> animList;
         List<CamStyle> camStyles;
         Animation defaultAnimation;
         Animation selectedAnimOld => cbAnimOld.SelectedIndex >= 0 ? animList[cbAnimOld.SelectedIndex] : new Animation();
         Animation selectedAnimNew => cbAnimNew.SelectedIndex >= 0 ? animList[cbAnimNew.SelectedIndex] : new Animation();
-        static UInt32 ingameTimer;
-        static UInt32 previousFrame;
-
-        //This handles the "Each ingame frame"
-        //ASYNCHRONOUS FOR THE WIN
-        //FUNNILY ENOUGH! This takes little to no CPU, actually
-        //It's goddamn amazing
-        Task updateFunction = Task.Run(() => doUpdate());
-
         public MainForm()
         {
-            /* Code for plugin sandboxing */
-
-            PermissionSet trustedLoadFromRemoteSourcesGrantSet = new PermissionSet(PermissionState.Unrestricted);
-            AppDomainSetup trustedLoadFromRemoteSourcesSetup = new AppDomainSetup();
-            trustedLoadFromRemoteSourcesSetup.ApplicationBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-
-            AppDomain trustedRemoteLoadDomain = AppDomain.CreateDomain("Trusted LoadFromRemoteSources Domain",
-                           null,
-                           trustedLoadFromRemoteSourcesSetup,
-                           trustedLoadFromRemoteSourcesGrantSet);
             InitializeComponent();
-            ToolStripMenuItem plugins = new ToolStripMenuItem("Plugins");
-            try
-            {
-                try
-                {
-                    DirectoryInfo d = new DirectoryInfo(Application.StartupPath + "\\Plugins");
-                    foreach (FileInfo file in d.GetFiles("*.dll"))
-                    {
-                        try
-                        {
-                            Assembly assmb = Assembly.LoadFile(file.FullName);
-                            Type[] classes = assmb.GetTypes();
-                            foreach (Type typ in classes)
-                            {
-                                if (typ.GetInterface("IModule") != null)
-                                {
-                                    IModule mod = (IModule)assmb.CreateInstance(typ.FullName);
-                                    Plugin neoPlugin = new Plugin(mod, mod.SafeName, FileVersionInfo.GetVersionInfo(file.FullName).FileVersion.ToString(), mod.Description);
-                                    List<ToolCommand> tc_list = (List<ToolCommand>)mod.GetCommands();
-                                    if (tc_list != null)
-                                    {
-                                        foreach (ToolCommand tc in tc_list)
-                                        {
-                                            ToolStripMenuItem mod_ = new ToolStripMenuItem(tc.name);
-                                            mod_.Click += (a, b) => tc.Summon(a, b);
-                                            plugins.DropDownItems.Add(mod_);
-                                        }
-                                    }
-                                    moduleList.Add(neoPlugin);
-                                }
-                            }
-                        }
-                        catch (ReflectionTypeLoadException ex)
-                        {
-                            MessageBox.Show("Unexpected error while loading plugins:\n" + ex.ToString() + "\n\n" + ex.LoaderExceptions[0].ToString(), "Oops.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    Directory.CreateDirectory(Application.StartupPath + "\\Plugins");
-                    MessageBox.Show("No plugins folder was present, plugins folder created.\nMake sure you're running M64MM from an extracted folder.",
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                menuStrip.Items.Add(plugins);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-            InitializeModules();
-            menuStrip.Items.Add(plugins);
-
-            Text = Resources.programName + " " + Application.ProductVersion;
+            Text = Resources.programName + " " + Application.ProductVersion + "LTS";
             updateTimer.Interval = 1000;
             updateTimer.Start();
             animList = new List<Animation>();
@@ -201,20 +127,12 @@ namespace M64MM2
 
         }
 
-        void InitializeModules()
-        {
-            foreach (Plugin mod in moduleList)
-            {
-                mod.Module.Initialize();
-            }
-        }
-
         void Update(object sender, EventArgs e)
         {
             //Early validity checks
             if (!IsEmuOpen)
             {
-                Text = Resources.programName + " " + Application.ProductVersion;
+                Text = Resources.programName + " " + Application.ProductVersion + "LTS";
                 lblProgramStatus.Text = Resources.programStatus1;
                 FindEmuProcess();
                 modelStatus = ModelStatus.NONE;
@@ -224,7 +142,7 @@ namespace M64MM2
             FindBaseAddress();
             if (BaseAddress <= 0)
             {
-                Text = Resources.programName + " " + Application.ProductVersion;
+                Text = Resources.programName + " " + Application.ProductVersion + "LTS";
                 lblProgramStatus.Text = Resources.programStatus2;
                 modelStatus = ModelStatus.NONE;
             }
@@ -241,7 +159,7 @@ namespace M64MM2
             //Are we running a moddded model ROM? (Working with Vanilla-styled vs. EXMO)
             modelStatus = ValidateModel();
             toolsMenuItem.Enabled = true;
-            Text = Resources.programName + " " + Application.ProductVersion + " - " + modelStatus.ToString() + " ROM.";
+            Text = Resources.programName + " " + Application.ProductVersion + "LTS - " + modelStatus.ToString() + " ROM.";
 
             lblProgramStatus.Text = Resources.programStatus3 + "0x" + BaseAddress.ToString("X8");
 
@@ -396,58 +314,6 @@ namespace M64MM2
             }
         }
 
-        async static void doUpdate()
-        {
-            while (true)
-            {
-                //Ingame timer update
-                //ingameTimer = (BitConverter.ToUInt16(SwapEndian(ReadBytes(BaseAddress + 0x32D580, 2), 4), 0));
-                ingameTimer = await Task.Run(() => ReadUInt(BaseAddress + 0x32D580));
-                //If there's a level loaded EVEN if there's no model
-                if (modelStatus != ModelStatus.NONE)
-                {
-                    if (ingameTimer > previousFrame)
-                    {
-                        //Set new value
-                        previousFrame = ingameTimer;
-                        //If the ingame timer reaches zero then let's just write 255 more to it
-                        //This was when using a variable that decremented each frame, with VI Timer this shouldn't need to be used anymore
-                        /*
-                        if (ingameTimer == 0)
-                        {
-                            await Task.Run(() => { WriteUInt(BaseAddress + 0x33B198, 255); });
-                        }
-                        */
-                        //Ingame timer is a variable that INCREMENTS every frame in game. In case our previous snapshot of said value is above the timer:
-                        for (int i = 0; i < moduleList.Count; i++)
-                        {
-                            //Unity 1996
-                            if (moduleList[i].Active == true)
-                            {
-                                try
-                                {
-                                    moduleList[i].Module.Update();
-                                    continue;
-                                }
-                                catch (Exception e)
-                                {
-                                    MessageBox.Show("Plugin " + moduleList[i].Name + " stopped due to an error:\n" + e.ToString());
-                                    moduleList[i].Active = false;
-                                }
-
-                            }
-                        }
-                    }
-                    else if (ingameTimer <= previousFrame)
-                    {
-                        await Task.Run(() => previousFrame = ingameTimer);
-                        ingameTimer = await Task.Run(() => ReadUInt(BaseAddress + 0x32D580));
-                    }
-                }
-                // zzz
-                Thread.Sleep(1);
-            }
-        }
         void openAppearanceSettings(object sender, EventArgs e)
         {
             switch (modelStatus)
@@ -485,11 +351,6 @@ namespace M64MM2
                 extraControlsForm.Show();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnAnimRestart_Click(object sender, EventArgs e)
         {
             if (!IsEmuOpen || BaseAddress == 0) return;
@@ -510,21 +371,6 @@ namespace M64MM2
             }
             WriteBytes(address, stuffToWrite);
 
-        }
-
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-        {
-            foreach (Plugin mod in moduleList)
-            {
-                mod.Module.Close(e);
-            }
-            base.OnClosed(e);
-        }
-
-        private void showRunningPluginsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Taskman tman = new Taskman(ref moduleList);
-            tman.Show();
         }
     }
 
