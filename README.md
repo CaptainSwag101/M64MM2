@@ -19,7 +19,7 @@ Sure, you can continue using this, it's not like it's gonna stop working, but ne
 If you're looking for or want to ask for new features, please do so there.
 
 
-Want to report a bug? Contact us at [CaptainSwag101@gmail.com](mailto://captainswag101@gmail.com), open an issue in the GitHub Issues page, or ask in the #m64mm-talk channel in the [Project Comet Discord Server](http://comet.glitchypsi.xyz).
+Want to report a bug? Ask in the #m64mm-talk channel in the [Project Comet Discord Server](http://comet.glitchypsi.xyz).
 
 Planned additions for the future:
 
